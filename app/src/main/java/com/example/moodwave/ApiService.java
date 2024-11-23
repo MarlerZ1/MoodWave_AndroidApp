@@ -11,10 +11,10 @@ import retrofit2.http.POST;
 public interface ApiService {
 
     // Эндпоинт для получения токена
-    @POST("api/auth/token/")
+    @POST("authorization/api/token/")
     Call<TokenResponse> login(@Body LoginRequest loginRequest);
 
     // Эндпоинт для обновления токена
-    @POST("api/auth/token/refresh/")
+    @POST("authorization/api/token/refresh/")
     Call<TokenResponse> refreshToken(@Body TokenRefreshRequest tokenRefreshRequest);
 }
