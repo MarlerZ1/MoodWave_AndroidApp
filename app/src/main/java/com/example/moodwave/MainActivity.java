@@ -1,15 +1,18 @@
 package com.example.moodwave;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.moodwave.RequestResponse.Repsonses.TokenResponse;
+import com.example.moodwave.RequestResponse.Requests.LoginRequest;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private EditText editUsername;
@@ -18,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
         editUsername = findViewById(R.id.editUsernameAuthorization);
@@ -34,5 +36,44 @@ public class MainActivity extends AppCompatActivity {
 
     private void login(){
         System.out.println("It`s alive");
+        String username = editUsername.getText().toString();
+        String password = editPassword.getText().toString();
+
+        LoginRequest loginRequest = new LoginRequest(username, password);
+
+
+        ApiService apiService = RetrofitClient.getApiService();
+        Call<TokenResponse> call = apiService.login(loginRequest);
+
+        call.enqueue(new Callback<TokenResponse>() {
+            @Override
+            public void onResponse(Call<TokenResponse> call, Response<TokenResponse> response) {
+                if (response.isSuccessful()) {
+
+                    String accessToken = response.body().getAccess();
+                    String refreshToken = response.body().getRefresh();
+
+                    // save tochen to local sharedpreferences storage
+                    getSharedPreferences("appPrefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("access_token", accessToken)
+                            .putString("refresh_token", refreshToken)
+                            .apply();
+
+                    Toast.makeText(MainActivity.this, "Login successed", Toast.LENGTH_SHORT).show();
+
+//                    startActivity(new Intent(LoginActivity.this, DialogsActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TokenResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                System.out.println(t.getMessage());
+            }
+        });
     }
 }
