@@ -11,7 +11,7 @@
         android:id="@+id/editUsernameAuthorization"
         android:layout_width="255dp"
         android:layout_height="63dp"
-        android:layout_marginTop="248dp"
+        android:layout_marginTop="144dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
@@ -24,24 +24,37 @@
         android:layout_width="255dp"
         android:layout_height="67dp"
         android:ems="10"
+        android:hint="Enter your password"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUsernameAuthorization"
-        app:layout_constraintVertical_bias="0.218"
-        android:hint="Enter your password"
+        app:layout_constraintVertical_bias="0.056"
+
         />
 
     <Button
         android:id="@+id/buttonAuthorization"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="132dp"
         android:text="Авторизоваться"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonGoToRegistrationPage" />
+
+    <Button
+        android:id="@+id/buttonGoToRegistrationPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Нет аккаунта? Зарегистрируйтесь!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editUsernamePassword"
-        app:layout_constraintVertical_bias="0.311" />
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/black"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

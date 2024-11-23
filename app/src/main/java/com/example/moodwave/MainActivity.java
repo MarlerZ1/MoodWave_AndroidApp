@@ -1,5 +1,6 @@
 package com.example.moodwave;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -32,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
                 login();
             }
         });
+
+        findViewById(R.id.buttonGoToRegistrationPage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+            }
+        });
     }
 
     private void login(){
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     String accessToken = response.body().getAccess();
                     String refreshToken = response.body().getRefresh();
 
-                    // save tochen to local sharedpreferences storage
+                    // save tocken to local sharedpreferences storage
                     getSharedPreferences("appPrefs", MODE_PRIVATE)
                             .edit()
                             .putString("access_token", accessToken)
@@ -62,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Toast.makeText(MainActivity.this, "Login successed", Toast.LENGTH_SHORT).show();
 
-//                    startActivity(new Intent(LoginActivity.this, DialogsActivity.class));
-                    finish();
+                    //startActivity(new Intent(MainActivity.this, DialogsActivity.class));
                 } else {
                     Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
