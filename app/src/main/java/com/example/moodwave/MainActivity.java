@@ -69,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                             .apply();
 
                     Toast.makeText(MainActivity.this, "Login successed", Toast.LENGTH_SHORT).show();
-
-                    //startActivity(new Intent(MainActivity.this, DialogsActivity.class));
+                    RetrofitClient.updateToken(getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null));
+                    startActivity(new Intent(MainActivity.this, ChatListActivity.class));
                 } else {
                     Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                 }
