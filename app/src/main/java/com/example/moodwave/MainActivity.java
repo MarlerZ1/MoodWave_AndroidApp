@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void login(){
-        System.out.println("It`s alive");
         String username = editUsername.getText().toString();
         String password = editPassword.getText().toString();
 
@@ -68,17 +67,17 @@ public class MainActivity extends AppCompatActivity {
                             .putString("refresh_token", refreshToken)
                             .apply();
 
-                    Toast.makeText(MainActivity.this, "Login successed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
                     RetrofitClient.updateToken(getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null));
                     startActivity(new Intent(MainActivity.this, ChatListActivity.class));
                 } else {
-                    Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<TokenResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(R.string.error_word) + t.getMessage(), Toast.LENGTH_SHORT).show();
                 System.out.println(t.getMessage());
             }
         });

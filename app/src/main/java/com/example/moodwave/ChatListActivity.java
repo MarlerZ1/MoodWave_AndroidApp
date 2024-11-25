@@ -41,19 +41,19 @@ public class ChatListActivity extends AppCompatActivity {
 
                 } else {
 
-                    try {
-                        System.out.println("There are an error ");
-                        System.out.println("Something went wrong: " + response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("Error reading the error body");
-                    }
+//                    try {
+//                        System.out.println("There are an error ");
+//                        System.out.println("Something went wrong: " + response.errorBody().string());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                        System.out.println("Error reading the error body");
+//                    }
                 }
             }
 
             @Override
             public void onFailure(Call<List<ChatResponse>> call, Throwable t) {
-                Toast.makeText(ChatListActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatListActivity.this, getString(R.string.error_word) + t.getMessage(), Toast.LENGTH_SHORT).show();
                 System.out.println(t.getMessage());
             }
         });

@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">MoodWave</string>
+    <string name="error_word">Ошибка </string>
+
+
+    <string name="login_success">Вы успешно авторизовались</string>
+    <string name="login_failed">Ошибка авторизации</string>
+    <string name="name_field">Имя</string>
+    <string name="last_name_field">Фамилия</string>
+    <string name="username_field">Ник пользователя</string>
+    <string name="email_field">Почта</string>
+    <string name="password_field_1">Введите пароль</string>
+    <string name="password_field_2">Повторите пароль</string>
+    <string name="has_no_account_btn">Нет аккаунта? Зарегистрируйтесь!</string>
+    <string name="authorization_btn">Авторизоваться</string>
+
+
+
+    <string name="pswd_equals_error">Пароли не одинаковые</string>
+    <string name="registration_success">Регистрация успешна</string>
+    <string name="registration_failed">Ошибка регистрации. Возможно, такие почта или имя пользователя уже используются </string>
+    <string name="registration_btn">Зарегистрироваться</string>
 </resources>

@@ -48,7 +48,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void registration(){
         if (!password1.getText().toString().equals(password2.getText().toString())){
-            Toast.makeText(RegistrationActivity.this, "Пароли не одинаковые", Toast.LENGTH_SHORT).show();
+            Toast.makeText(RegistrationActivity.this, getString(R.string.pswd_equals_error), Toast.LENGTH_SHORT).show();
             return;
         }
         RegistrationRequest registrationRequest = new RegistrationRequest(
@@ -70,17 +70,17 @@ public class RegistrationActivity extends AppCompatActivity {
                     int statusCode = response.code();
 
                     if (statusCode == 201){
-                        Toast.makeText(RegistrationActivity.this, "Регистрация успешна", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistrationActivity.this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                     }
                 } else {
-                    Toast.makeText(RegistrationActivity.this, "Регистрация провалилась", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, getString(R.string.registration_failed), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(RegistrationActivity.this, "Ошибка: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegistrationActivity.this, getString(R.string.error_word) + t.getMessage(), Toast.LENGTH_SHORT).show();
                 System.out.println(t.getMessage());
             }
         });
