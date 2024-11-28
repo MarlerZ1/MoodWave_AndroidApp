@@ -24,7 +24,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit_gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
-
+picasso = {group = "com.squareup.picasso", name="picasso", version="2.8"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -35,6 +35,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
     implementation(libs.okhttp)
+    implementation(libs.picasso)
 
     implementation(libs.appcompat)
     implementation(libs.material)

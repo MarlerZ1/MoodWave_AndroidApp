@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moodwave.RequestResponse.Repsonses.ChatResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -16,10 +19,15 @@ import retrofit2.Response;
 
 public class ChatListActivity extends AppCompatActivity {
 
+    private RecyclerView chatListRecyclerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+        chatListRecyclerView = findViewById(R.id.chatListRecyclerView);
+        chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         getBasicPage();
     }
 
@@ -38,7 +46,8 @@ public class ChatListActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     System.out.println("response.isSuccessful()");
                     System.out.println(response.body().get(0).getName().toString());
-
+                    DialogueAdapter adapter = new DialogueAdapter(response.body());
+                    chatListRecyclerView.setAdapter(adapter);
                 } else {
 
 //                    try {

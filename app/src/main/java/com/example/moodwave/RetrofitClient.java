@@ -31,5 +31,7 @@ public class RetrofitClient {
             authInterceptor.setToken(newToken);
         }
     }
-
+    public static String getURL(){
+        return BASE_URL;
+    }
 }

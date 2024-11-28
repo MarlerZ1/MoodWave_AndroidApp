@@ -8,7 +8,7 @@
     >
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/dialogueLogoView"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="16dp"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dialogueTitleView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
@@ -26,16 +26,16 @@
         android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:text="DialogueName"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/dialogueLogoView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/dialogueLastMessageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:text="text"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintStart_toEndOf="@+id/dialogueLogoView"
+        app:layout_constraintTop_toBottomOf="@+id/dialogueTitleView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
