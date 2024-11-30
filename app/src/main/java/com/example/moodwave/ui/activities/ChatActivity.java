@@ -17,8 +17,10 @@ import com.example.moodwave.data.api.RetrofitClient;
 import com.example.moodwave.data.api.WebSocketClient;
 import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.data.models.Repsonses.MessageResponse;
+import com.example.moodwave.data.models.Requests.DeleteMessageRequest;
 import com.example.moodwave.ui.adapters.MessageAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -45,10 +47,19 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onMessageReceived(String message) {
                 runOnUiThread(() -> {
+
                     Gson gson = new Gson();
                     JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
                     MessageResponse messageResponse = gson.fromJson(jsonObject.getAsJsonObject("websocket_message"), MessageResponse.class);
-                    adapter.addItem(messageResponse);
+                    switch (messageResponse.getMessage_type() ){
+                        case "new_message":
+                            adapter.addItem(messageResponse);
+                            break;
+                        case "delete_message":
+                            adapter.deleteItem(messageResponse.getMessage_id());
+                            break;
+                    }
+
                 });
             }
 
@@ -79,8 +90,14 @@ public class ChatActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<MessageResponse>> call, Response<List<MessageResponse>> response) {
                     if (response.isSuccessful()){
-                        System.out.println(response.body().get(0).getName());
-                        adapter = new MessageAdapter(response.body());
+                        adapter = new MessageAdapter(response.body(), new MessageAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int message_id) {
+                                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                                webSocketClient.sendMessage(gson.toJson(new DeleteMessageRequest(message_id)));
+
+                            }
+                        });
                         messageListRecyclerView.setAdapter(adapter);
                     }
                 }

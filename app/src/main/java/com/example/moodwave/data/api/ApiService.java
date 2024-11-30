@@ -2,6 +2,7 @@ package com.example.moodwave.data.api;
 
 import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.data.models.Repsonses.MessageResponse;
+import com.example.moodwave.data.models.Requests.DeleteMessageRequest;
 import com.example.moodwave.data.models.Requests.LoginRequest;
 import com.example.moodwave.data.models.Requests.RegistrationRequest;
 import com.example.moodwave.data.models.Requests.TokenRefreshRequest;
@@ -33,4 +34,5 @@ public interface ApiService {
 
     @GET("chats/api/chat/{chatId}")
     Call<List<MessageResponse>> getChat(@Path("chatId") int chatId);
+
 }

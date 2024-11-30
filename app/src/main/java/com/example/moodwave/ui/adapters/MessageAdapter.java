@@ -18,14 +18,30 @@ import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
     private List<MessageResponse> messages;
+    private OnItemClickListener listener;
 
-    public MessageAdapter(List<MessageResponse> messages) {
+    public interface OnItemClickListener {
+        void onItemClick(int message_id);
+    }
+    public MessageAdapter(List<MessageResponse> messages, OnItemClickListener listener) {
         this.messages = messages;
+        this.listener = listener;
     }
 
     public void addItem(MessageResponse message) {
         messages.add(message);
         notifyItemInserted(messages.size() - 1);
+    }
+
+    public void deleteItem(int message_id){
+        for (int i = 0; i < messages.size(); i++){
+            if (messages.get(i).getMessage_id() == message_id){
+                messages.remove(i);
+                notifyItemRemoved(i);
+//                notifyItemRangeChanged(i, messages.size());
+                return;
+            }
+        }
     }
 
     @NonNull
@@ -39,8 +55,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageAdapter.MessageViewHolder holder, int position) {
         MessageResponse message = messages.get(position);
-
-        holder.bind(message);
+        holder.bind(message, message.getMessage_id(), listener);
     }
 
     @Override
@@ -67,7 +82,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         }
 
 
-        public void bind(MessageResponse message) {
+        public void bind(MessageResponse message, int message_id, OnItemClickListener listener) {
             messageSenderName.setText(message.getName());
 
 
@@ -85,19 +100,33 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                         .into(imageAttachmentImageView);
             }
 
-            ImageView imageView;
-            if (message.getFrom_me())
-                imageView = userLogoFromMeImageView;
-            else
-                imageView = userLogoToMeImageView;
+            ImageView imageFromMeView;
+
+            if (message.getFrom_me()) {
+                imageFromMeView = userLogoFromMeImageView;
+                userLogoToMeImageView.setVisibility(View.GONE);
+            }
+            else {
+                imageFromMeView = userLogoToMeImageView;
+                userLogoFromMeImageView.setVisibility(View.GONE);
+            }
 
             if (message.getLogo_url() == null || message.getLogo_url().isEmpty()){
-                imageView.setImageResource(R.drawable.default_logo);
+                imageFromMeView.setImageResource(R.drawable.default_logo);
 
             } else {
                 Picasso.get()
                         .load(RetrofitClient.getURL().substring(0, RetrofitClient.getURL().length() - 1) + message.getLogo_url())
-                        .into(imageView);
+                        .into(imageFromMeView);
+            }
+
+            if (message.getFrom_me())
+            {
+                itemView.setOnClickListener(v -> {
+                    if (listener != null) {
+                        listener.onItemClick(message_id);
+                    }
+                });
             }
         }
 
