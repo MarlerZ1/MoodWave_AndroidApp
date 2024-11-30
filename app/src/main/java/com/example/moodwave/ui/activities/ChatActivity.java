@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moodwave.R;
 import com.example.moodwave.data.api.ApiService;
 import com.example.moodwave.data.api.RetrofitClient;
+import com.example.moodwave.data.api.WebSocketClient;
 import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.data.models.Repsonses.MessageResponse;
 import com.example.moodwave.ui.adapters.MessageAdapter;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -26,6 +29,8 @@ import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView messageListRecyclerView;
+    private WebSocketClient webSocketClient;
+    MessageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,25 @@ public class ChatActivity extends AppCompatActivity {
         messageListRecyclerView = findViewById(R.id.messageListRecyclerView);
         messageListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        webSocketClient = new WebSocketClient(new WebSocketClient.SocketEventListener() {
+            @Override
+            public void onMessageReceived(String message) {
+                runOnUiThread(() -> {
+                    Gson gson = new Gson();
+                    JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+                    MessageResponse messageResponse = gson.fromJson(jsonObject.getAsJsonObject("websocket_message"), MessageResponse.class);
+                    adapter.addItem(messageResponse);
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+        String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
+
+        webSocketClient.connect(RetrofitClient.getURL() + "chats/messages/add_new_message", accessToken);
         getInitialMessaged();
     }
 
@@ -56,7 +80,7 @@ public class ChatActivity extends AppCompatActivity {
                 public void onResponse(Call<List<MessageResponse>> call, Response<List<MessageResponse>> response) {
                     if (response.isSuccessful()){
                         System.out.println(response.body().get(0).getName());
-                        MessageAdapter adapter = new MessageAdapter(response.body());
+                        adapter = new MessageAdapter(response.body());
                         messageListRecyclerView.setAdapter(adapter);
                     }
                 }

@@ -23,6 +23,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         this.messages = messages;
     }
 
+    public void addItem(MessageResponse message) {
+        messages.add(message);
+        notifyItemInserted(messages.size() - 1);
+    }
 
     @NonNull
     @Override
@@ -61,6 +65,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             imageAttachmentImageView = itemView.findViewById(R.id.imageAttachmentImageView);
 
         }
+
 
         public void bind(MessageResponse message) {
             messageSenderName.setText(message.getName());
