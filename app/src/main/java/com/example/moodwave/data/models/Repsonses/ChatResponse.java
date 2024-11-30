@@ -5,9 +5,9 @@ public class ChatResponse {
     private String logo;
     private String message_text;
     private String format;
-    private String chat_id;
+    private int chat_id;
 
-    public ChatResponse(String name, String logo, String messageText, String format, String chatId) {
+    public ChatResponse(String name, String logo, String messageText, String format, int chatId) {
         this.name = name;
         this.logo = logo;
         this.message_text = messageText;
@@ -32,7 +32,7 @@ public class ChatResponse {
         return format;
     }
 
-    public String getChat_id() {
+    public int getChat_id() {
         return chat_id;
     }
 }

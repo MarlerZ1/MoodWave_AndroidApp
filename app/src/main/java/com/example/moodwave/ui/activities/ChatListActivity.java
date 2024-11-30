@@ -1,5 +1,6 @@
 package com.example.moodwave.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -47,7 +48,16 @@ public class ChatListActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
                     List<ChatResponse> dialogues = gson.fromJson(jsonObject.getAsJsonArray("websocket_message"), new TypeToken<List<ChatResponse>>() {}.getType());
-                    DialogueAdapter adapter = new DialogueAdapter(dialogues);
+                    DialogueAdapter adapter = new DialogueAdapter(dialogues, new DialogueAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int chat_id) {
+                            Intent intent = new Intent(ChatListActivity.this, ChatActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("chat_id", chat_id);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
                     chatListRecyclerView.setAdapter(adapter);
                 });
             }
@@ -77,19 +87,20 @@ public class ChatListActivity extends AppCompatActivity {
             public void onResponse(Call<List<ChatResponse>> call, Response<List<ChatResponse>> response) {
 
                 if (response.isSuccessful()) {
-                    System.out.println("response.isSuccessful()");
-                    System.out.println(response.body().get(0).getName().toString());
-                    DialogueAdapter adapter = new DialogueAdapter(response.body());
+                    DialogueAdapter adapter = new DialogueAdapter(response.body(), new DialogueAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int chat_id) {
+                            Intent intent = new Intent(ChatListActivity.this, ChatActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("chat_id", chat_id);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    });
                     chatListRecyclerView.setAdapter(adapter);
                 } else {
+                    Toast.makeText(ChatListActivity.this, getString(R.string.response_error), Toast.LENGTH_SHORT).show();
 
-//                    try {
-//                        System.out.println("There are an error ");
-//                        System.out.println("Something went wrong: " + response.errorBody().string());
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                        System.out.println("Error reading the error body");
-//                    }
                 }
             }
 

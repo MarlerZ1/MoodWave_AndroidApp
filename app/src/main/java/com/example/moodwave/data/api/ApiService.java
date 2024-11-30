@@ -1,6 +1,7 @@
 package com.example.moodwave.data.api;
 
 import com.example.moodwave.data.models.Repsonses.ChatResponse;
+import com.example.moodwave.data.models.Repsonses.MessageResponse;
 import com.example.moodwave.data.models.Requests.LoginRequest;
 import com.example.moodwave.data.models.Requests.RegistrationRequest;
 import com.example.moodwave.data.models.Requests.TokenRefreshRequest;
@@ -13,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
     @POST("authorization/api/token/")
@@ -27,4 +29,8 @@ public interface ApiService {
 
     @GET("chats/api/chat_list")
     Call<List<ChatResponse>> getChatList();
+
+
+    @GET("chats/api/chat/{chatId}")
+    Call<List<MessageResponse>> getChat(@Path("chatId") int chatId);
 }

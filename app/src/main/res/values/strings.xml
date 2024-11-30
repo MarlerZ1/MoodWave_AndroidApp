@@ -15,9 +15,12 @@
     <string name="authorization_btn">Авторизоваться</string>
 
 
-
     <string name="pswd_equals_error">Пароли не одинаковые</string>
     <string name="registration_success">Регистрация успешна</string>
     <string name="registration_failed">Ошибка регистрации. Возможно, такие почта или имя пользователя уже используются </string>
     <string name="registration_btn">Зарегистрироваться</string>
+
+
+    <string name="send_btn">-></string>
+    <string name="response_error">Ошибка запроса. Попробуйте еще раз</string>
 </resources>

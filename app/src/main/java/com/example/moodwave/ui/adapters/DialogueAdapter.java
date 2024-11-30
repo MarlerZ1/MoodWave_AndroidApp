@@ -19,9 +19,15 @@ import java.util.List;
 public class DialogueAdapter extends RecyclerView.Adapter<DialogueAdapter.DialogueViewHolder> {
 
     private List<ChatResponse> dialogues;
+    private OnItemClickListener listener;
 
-    public DialogueAdapter(List<ChatResponse> dialogues) {
+    public interface OnItemClickListener {
+        void onItemClick(int chat_id);
+    }
+
+    public DialogueAdapter(List<ChatResponse> dialogues, OnItemClickListener listener) {
         this.dialogues = dialogues;
+        this.listener = listener;
     }
 
     @NonNull
@@ -35,7 +41,8 @@ public class DialogueAdapter extends RecyclerView.Adapter<DialogueAdapter.Dialog
     @Override
     public void onBindViewHolder(@NonNull DialogueViewHolder holder, int position) {
         ChatResponse dialogue = dialogues.get(position);
-        holder.bind(dialogue);
+
+        holder.bind(dialogue, dialogue.getChat_id(), listener);
     }
 
     @Override
@@ -55,14 +62,18 @@ public class DialogueAdapter extends RecyclerView.Adapter<DialogueAdapter.Dialog
             dialogueImageView = itemView.findViewById(R.id.dialogueLogoView);
         }
 
-        public void bind(ChatResponse dialogue) {
+        public void bind(ChatResponse dialogue, int chat_id, OnItemClickListener listener) {
             dialogueTitleView.setText(dialogue.getName());
             lastMessageTextView.setText(dialogue.getMessage_text());
             Picasso.get()
                     .load(RetrofitClient.getURL().substring(0, RetrofitClient.getURL().length() - 1) + dialogue.getLogo())
                     .into(dialogueImageView);
 
-            System.out.println(dialogue.getLogo());
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onItemClick(chat_id);
+                }
+            });
         }
     }
 }
