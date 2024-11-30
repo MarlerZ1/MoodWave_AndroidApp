@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moodwave.R;
-import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.data.api.ApiService;
 import com.example.moodwave.data.api.RetrofitClient;
+import com.example.moodwave.data.api.WebSocketClient;
+import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.ui.adapters.DialogueAdapter;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
@@ -22,6 +26,7 @@ import retrofit2.Response;
 public class ChatListActivity extends AppCompatActivity {
 
     private RecyclerView chatListRecyclerView;
+    private WebSocketClient webSocketClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +35,33 @@ public class ChatListActivity extends AppCompatActivity {
 
         chatListRecyclerView = findViewById(R.id.chatListRecyclerView);
         chatListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         getBasicPage();
+
+
+        webSocketClient = new WebSocketClient(new WebSocketClient.SocketEventListener() {
+            @Override
+            public void onMessageReceived(String message) {
+                runOnUiThread(() -> {
+                    System.out.println(message);
+                    Gson gson = new Gson();
+                    JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
+                    List<ChatResponse> dialogues = gson.fromJson(jsonObject.getAsJsonArray("websocket_message"), new TypeToken<List<ChatResponse>>() {}.getType());
+                    DialogueAdapter adapter = new DialogueAdapter(dialogues);
+                    chatListRecyclerView.setAdapter(adapter);
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(ChatListActivity.this, "WebSocket Error: " + error, Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+        String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
+
+        webSocketClient.connect(RetrofitClient.getURL() + "chats/test/", accessToken);
     }
 
 
