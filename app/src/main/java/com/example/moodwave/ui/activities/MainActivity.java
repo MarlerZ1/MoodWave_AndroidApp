@@ -1,4 +1,4 @@
-package com.example.moodwave;
+package com.example.moodwave.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,8 +8,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.moodwave.RequestResponse.Repsonses.TokenResponse;
-import com.example.moodwave.RequestResponse.Requests.LoginRequest;
+import com.example.moodwave.R;
+import com.example.moodwave.data.models.Repsonses.TokenResponse;
+import com.example.moodwave.data.models.Requests.LoginRequest;
+import com.example.moodwave.data.api.ApiService;
+import com.example.moodwave.data.api.RetrofitClient;
 
 import retrofit2.Call;
 import retrofit2.Callback;

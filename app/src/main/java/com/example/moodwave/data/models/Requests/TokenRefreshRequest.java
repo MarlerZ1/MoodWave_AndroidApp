@@ -1,4 +1,4 @@
-package com.example.moodwave.RequestResponse.Requests;
+package com.example.moodwave.data.models.Requests;
 
 public class TokenRefreshRequest {
     private String refresh;

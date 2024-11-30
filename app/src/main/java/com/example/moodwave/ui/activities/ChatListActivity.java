@@ -1,4 +1,4 @@
-package com.example.moodwave;
+package com.example.moodwave.ui.activities;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moodwave.RequestResponse.Repsonses.ChatResponse;
+import com.example.moodwave.R;
+import com.example.moodwave.data.models.Repsonses.ChatResponse;
+import com.example.moodwave.data.api.ApiService;
+import com.example.moodwave.data.api.RetrofitClient;
+import com.example.moodwave.ui.adapters.DialogueAdapter;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

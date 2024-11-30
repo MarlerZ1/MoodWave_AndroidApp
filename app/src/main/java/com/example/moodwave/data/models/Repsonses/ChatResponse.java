@@ -1,4 +1,4 @@
-package com.example.moodwave.RequestResponse.Repsonses;
+package com.example.moodwave.data.models.Repsonses;
 
 public class ChatResponse {
     private String name;

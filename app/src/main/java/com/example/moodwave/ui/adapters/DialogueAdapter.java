@@ -1,4 +1,4 @@
-package com.example.moodwave;
+package com.example.moodwave.ui.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.moodwave.RequestResponse.Repsonses.ChatResponse;
+import com.example.moodwave.R;
+import com.example.moodwave.data.models.Repsonses.ChatResponse;
+import com.example.moodwave.data.api.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.moodwave;
+package com.example.moodwave.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,14 +6,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.moodwave.RequestResponse.Repsonses.TokenResponse;
-import com.example.moodwave.RequestResponse.Requests.RegistrationRequest;
+import com.example.moodwave.R;
+import com.example.moodwave.data.models.Requests.RegistrationRequest;
+import com.example.moodwave.data.api.ApiService;
+import com.example.moodwave.data.api.RetrofitClient;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

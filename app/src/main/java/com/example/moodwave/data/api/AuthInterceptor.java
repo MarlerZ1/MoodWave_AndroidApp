@@ -1,4 +1,4 @@
-package com.example.moodwave;
+package com.example.moodwave.data.api;
 
 import java.io.IOException;
 import okhttp3.Interceptor;

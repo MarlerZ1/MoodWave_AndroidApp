@@ -1,10 +1,10 @@
-package com.example.moodwave;
+package com.example.moodwave.data.api;
 
-import com.example.moodwave.RequestResponse.Repsonses.ChatResponse;
-import com.example.moodwave.RequestResponse.Requests.LoginRequest;
-import com.example.moodwave.RequestResponse.Requests.RegistrationRequest;
-import com.example.moodwave.RequestResponse.Requests.TokenRefreshRequest;
-import com.example.moodwave.RequestResponse.Repsonses.TokenResponse;
+import com.example.moodwave.data.models.Repsonses.ChatResponse;
+import com.example.moodwave.data.models.Requests.LoginRequest;
+import com.example.moodwave.data.models.Requests.RegistrationRequest;
+import com.example.moodwave.data.models.Requests.TokenRefreshRequest;
+import com.example.moodwave.data.models.Repsonses.TokenResponse;
 
 import java.util.List;
 
