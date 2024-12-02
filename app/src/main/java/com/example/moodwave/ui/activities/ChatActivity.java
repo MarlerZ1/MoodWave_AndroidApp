@@ -1,6 +1,9 @@
 package com.example.moodwave.ui.activities;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +21,8 @@ import com.example.moodwave.data.api.WebSocketClient;
 import com.example.moodwave.data.models.Repsonses.ChatResponse;
 import com.example.moodwave.data.models.Repsonses.MessageResponse;
 import com.example.moodwave.data.models.Requests.DeleteMessageRequest;
+import com.example.moodwave.data.models.Requests.SendMessageFormRequest;
+import com.example.moodwave.data.models.Requests.SendMessageRequest;
 import com.example.moodwave.ui.adapters.MessageAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,6 +37,11 @@ import retrofit2.Response;
 public class ChatActivity extends AppCompatActivity {
     private RecyclerView messageListRecyclerView;
     private WebSocketClient webSocketClient;
+
+    private EditText newMessageEditText;
+    private Button sendBtn;
+
+    private int chatId;
     MessageAdapter adapter;
 
     @Override
@@ -39,7 +49,8 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
+        newMessageEditText = findViewById(R.id.newMessageEditText);
+        sendBtn = findViewById(R.id.sendBtn);
         messageListRecyclerView = findViewById(R.id.messageListRecyclerView);
         messageListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -68,6 +79,17 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Gson gson = new Gson();
+                SendMessageRequest sendMessageRequest = new SendMessageRequest(new SendMessageFormRequest(newMessageEditText.getText().toString()), chatId);
+                webSocketClient.sendMessage(gson.toJson(sendMessageRequest));
+            }
+        });
+
+
         String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
 
         webSocketClient.connect(RetrofitClient.getURL() + "chats/messages/add_new_message", accessToken);
@@ -78,13 +100,14 @@ public class ChatActivity extends AppCompatActivity {
     private void getInitialMessaged(){
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            int chat_id = bundle.getInt("chat_id");
+            chatId = bundle.getInt("chat_id");
+
 
 
             String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
 
             ApiService apiService = RetrofitClient.getApiService(accessToken);
-            Call<List<MessageResponse>> call = apiService.getChat(chat_id);
+            Call<List<MessageResponse>> call = apiService.getChat(chatId);
 
             call.enqueue(new Callback<List<MessageResponse>>() {
                 @Override
