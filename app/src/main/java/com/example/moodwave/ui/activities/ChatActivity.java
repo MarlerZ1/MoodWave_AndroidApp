@@ -92,7 +92,7 @@ public class ChatActivity extends AppCompatActivity {
 
         String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
 
-        webSocketClient.connect(RetrofitClient.getURL() + "chats/messages/add_new_message", accessToken);
+        webSocketClient.connect(RetrofitClient.getURL() + "chats/messages/work_with_message", accessToken);
         getInitialMessaged();
     }
 

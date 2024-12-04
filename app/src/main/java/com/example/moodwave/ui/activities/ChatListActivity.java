@@ -71,7 +71,7 @@ public class ChatListActivity extends AppCompatActivity {
         });
         String accessToken = getSharedPreferences("appPrefs", MODE_PRIVATE).getString("access_token", null);
 
-        webSocketClient.connect(RetrofitClient.getURL() + "chats/test/", accessToken);
+        webSocketClient.connect(RetrofitClient.getURL() + "chats/chats_updating/", accessToken);
     }
 
 
